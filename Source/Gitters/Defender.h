@@ -1,4 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -6,7 +5,7 @@
 #include "Defender.generated.h"
 
 UCLASS()
-class GITTERS_API ADefender : public AActor
+class GITTERS_API ADefender : public APawn
 {
 	GENERATED_BODY()
 
@@ -14,7 +13,7 @@ class GITTERS_API ADefender : public AActor
 	int32 Lives;
 
 	UPROPERTY(EditAnywhere, Category = "Defender")
-	int32 DamagePerShot;
+	int32 DamagePerHit;
 
 	
 public:	
@@ -31,8 +30,16 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	// Sprite for the defender ship's body
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Defender", meta = (AllowPrivateAccess = "true"))
-	class UPaperSpriteComponent* DefenderSprite;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Defender", meta = (AllowPrivateAccess = "true"))
+	//class UPaperSpriteComponent* DefenderSprite;
 	
+protected:
+	// Input variables
+	float MovementInput;
+	bool ShootInput;
+
+	// Input functions
+	void Move(float AxisValue);
+	void Shoot();
 	
 };
