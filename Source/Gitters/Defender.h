@@ -4,7 +4,11 @@
 #include "GameFramework/Pawn.h"
 #include "Defender.generated.h"
 
-UCLASS()
+//My General Log
+DECLARE_LOG_CATEGORY_EXTERN(MyLog, Log, All); //requires ';' because macro function, not macro method.
+//DECLARE_LOG_CATEGORY_EXTERN(MyLog, Log, All);
+
+UCLASS() // macro method, doesn't need ';'
 class GITTERS_API ADefender : public APawn
 {
 	GENERATED_BODY()
@@ -26,9 +30,6 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-
 	// Sprite for the defender ship's body
 	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Defender", meta = (AllowPrivateAccess = "true"))
 	//class UPaperSpriteComponent* DefenderSprite;
@@ -41,5 +42,8 @@ protected:
 	// Input functions
 	void Move(float AxisValue);
 	void Shoot();
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* inputComponent) override;
 	
 };

@@ -3,6 +3,11 @@
 #include "Defender.h"
 
 
+// My General Log
+DEFINE_LOG_CATEGORY(MyLog); // macro FUNCTION, not a method therefore -- requires ';'
+//UE_LOG(MyLog, Warning, TEXT("BLABLABLA")); //Example log
+//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, "BLABLABLA"); //This one prints to screen
+
 // Sets default values
 ADefender::ADefender()
 {
@@ -24,23 +29,29 @@ ADefender::ADefender()
 void ADefender::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	SetupPlayerInputComponent(Super::InputComponent);
+	//UE_LOG(MyLog, Warning, TEXT("BeginPlay"));
+
 }
 
 // Called every frame
 void ADefender::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-	
-	GLog->Log("Tick");
+	check(GEngine);
+
+	//String pos = GetActorLocation().ToString();
+	GEngine->AddOnScreenDebugMessage(-1, 0.3f, FColor::Red, GetActorLocation().ToString());
 
 	// Handle movement
 	{
 		if (MovementInput != 0)
 		{
-			GLog->Log("Tock");
+			UE_LOG(MyLog, Warning, TEXT("Movement wasn't 0"));
 			FVector NewLocation = GetActorLocation();
+
 			NewLocation += GetActorRightVector() * MovementInput * DeltaTime;
+			GEngine->AddOnScreenDebugMessage(-1, 0.3f, FColor::Green, NewLocation.ToString());
 			SetActorLocation(NewLocation);
 		}
 	}
@@ -49,8 +60,10 @@ void ADefender::Tick( float DeltaTime )
 
 // Input functions
 // Bind functions to Input
-void ADefender::SetupPlayerInputComponent(class UInputComponent* InputComponent) {
-	//Super::SetupPlayerInputComponent(InputComponent);
+void ADefender::SetupPlayerInputComponent(class UInputComponent* inputComponent) {
+	Super::SetupPlayerInputComponent(inputComponent);
+	UE_LOG(MyLog, Warning, TEXT("Setup player input! said ADefender"));
+	check(InputComponent);
 
 	InputComponent->BindAction("Shoot", IE_Pressed, this, &ADefender::Shoot);
 	InputComponent->BindAxis("MovementX", this, &ADefender::Move);

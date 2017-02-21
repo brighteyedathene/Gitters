@@ -3,6 +3,3 @@
 #include "Gitters.h"
 #include "GittersGameModeBase.h"
 
-
-
-
